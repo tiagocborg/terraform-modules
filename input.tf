@@ -1,0 +1,81 @@
+variable "cidr_block" {
+  description = "The cidr block for the vpc"
+  type        = string
+}
+
+
+variable "edge_subnet_cidr" {
+  description = "The range for the edge subnets"
+  type        = list
+  default     = []
+}
+
+variable "data_subnet_cidr" {
+  description = "The range for the data subnets"
+  type        = list
+  default     = []
+}
+
+variable "dmz_subnet_cidr" {
+  description = "The range for the dnz subnets"
+  type        = list
+  default     = []
+}
+
+variable "application_subnet_cidr" {
+  description = "The range for the application subnets"
+  type        = list
+  default     = []
+}
+
+variable "edge_subnet_tags" {
+  description = "Unique tags for edge subnets"
+  type        = map
+  default     = {}
+}
+
+variable "application_subnet_tags" {
+  description = "Unique tags for applicatio subnets"
+  type        = map
+  default     = {}
+}
+
+
+variable "common_tags" {
+  description = "Common tags for the resources"
+  type        = map
+  default     = {}
+}
+
+variable "enable_dns_hostnames" {
+  description = "Should dns hostnames be enabled by default?"
+  type        = bool
+  default     = true
+}
+
+variable "enable_dns_support" {
+  description = "Should dns support be enabled by default?"
+  type        = bool
+  default     = true
+}
+
+variable "instance_tenancy" {
+  description = "What is the default VPC tenancy?"
+  type        = string
+  default     = "default"
+}
+
+variable "project_name" {
+  description = "The base name of the project"
+  type        = string
+}
+
+variable "env_name" {
+  description = "The env name"
+  type        = string
+}
+
+variable "region" {
+  description = "The aws region"
+  type        = string
+}
