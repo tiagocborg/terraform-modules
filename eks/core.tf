@@ -59,8 +59,8 @@ resource "aws_eks_node_group" "this" {
 
   scaling_config {
     desired_size = lookup(var.scaling_config, "desired")
-    min_size     = lookup(var.scaling_config, "min_size")
-    max_size     = lookup(var.scaling_config, "max_size")
+    min_size     = lookup(var.scaling_config, "min")
+    max_size     = lookup(var.scaling_config, "max")
   }
 
   depends_on = [
