@@ -9,11 +9,6 @@ variable "db_user" {
   description = "The db admin user."
 }
 
-variable "db_password" {
-  type        = string
-  description = "The db admin password."
-}
-
 variable "db_name" {
   type        = string
   description = "The db name."

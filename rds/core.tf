@@ -9,7 +9,7 @@ resource "aws_db_instance" "this" {
   instance_class         = var.instance_class
   name                   = var.db_name
   username               = var.db_user
-  password               = var.db_password
+  password               = random_password.random_string.result
   vpc_security_group_ids = local.security_group
   db_subnet_group_name   = aws_db_subnet_group.this.name
   identifier             = var.identifier
@@ -39,4 +39,18 @@ resource "aws_db_subnet_group" "this" {
     },
     var.common_tags
   )
+}
+
+resource "random_password" "random_string" {
+  length  = 16
+  special = false
+}
+
+resource "aws_secretsmanager_secret" "secret" {
+  name = "insiderlog/liabilityregister/db-info"
+}
+
+resource "aws_secretsmanager_secret_version" "secret_val" {
+  secret_id     = aws_secretsmanager_secret.secret.id
+  secret_string = "{\"DB_USER\":\"${var.db_user}\",\"DB_PASSWORD\":\"${random_password.random_string.result}\",\"DB_HOST\":\"${aws_db_instance.this_db_instance_address}\",\"DB_PORT\":\"${var.db_port}\"}"
 }
