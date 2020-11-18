@@ -1,5 +1,12 @@
-variable "description" {}
-variable "vpc_id" {}
+variable "description" {
+  type        = string
+  description = "Short description for the security group"
+}
+
+variable "vpc_id" {
+  description = "The VPC id"
+  type        = string
+}
 
 variable "sg_rules" {
   type = list(object({
