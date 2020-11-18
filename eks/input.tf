@@ -55,8 +55,8 @@ variable "scaling_config" {
   description = "Number of instances for the asg"
   type        = map
   default = {
-    desired_size = 2
-    min_size     = 2
-    max_size     = 3
+    desired = 2
+    min     = 2
+    max     = 3
   }
 }

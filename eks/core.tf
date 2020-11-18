@@ -58,9 +58,9 @@ resource "aws_eks_node_group" "this" {
   subnet_ids      = var.workers_subnets
 
   scaling_config {
-    desired_size = lookup(var.scaling_config, desired)
-    min_size     = lookup(var.scaling_config, min_size)
-    max_size     = lookup(var.scaling_config, max_size)
+    desired_size = lookup(var.scaling_config, "desired")
+    min_size     = lookup(var.scaling_config, "min_size")
+    max_size     = lookup(var.scaling_config, "max_size")
   }
 
   depends_on = [
