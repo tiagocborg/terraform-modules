@@ -21,7 +21,7 @@ resource "aws_db_instance" "this" {
 
 module "sgs" {
   count        = var.create_sg ? 1 : 0
-  source       = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//security_group?ref=v1.0.3"
+  source       = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//security_group?ref=v1.0.4"
   project_name = var.project_name
   description  = "${var.project_name} RDS security group"
   vpc_id       = var.vpc_id
