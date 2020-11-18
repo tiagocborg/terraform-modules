@@ -13,4 +13,5 @@ resource "aws_security_group_rule" "ingress_rule" {
   to_port           = lookup(var.sg_rules[count.index], "to_port")
   cidr_blocks       = lookup(var.sg_rules[count.index], "cidr_blocks")
   protocol          = lookup(var.sg_rules[count.index], "protocol")
+  description       = lookup(var.sg_rules[count.index], "description")
 }

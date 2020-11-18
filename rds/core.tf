@@ -47,7 +47,7 @@ resource "random_password" "random_string" {
 }
 
 resource "aws_secretsmanager_secret" "secret" {
-  name = "insiderlog/liabilityregister/db-info"
+  name = "${var.project_name}/db/db-info"
 }
 
 resource "aws_secretsmanager_secret_version" "secret_val" {
