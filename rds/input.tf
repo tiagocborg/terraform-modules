@@ -88,6 +88,12 @@ variable "project_name" {
   type        = string
 }
 
+variable "security_group" {
+  description = "A security group for the db instance"
+  type        = string
+  default     = ""
+}
+
 variable "create_sg" {
   description = "Should a security group for this module be created?"
   type        = bool
