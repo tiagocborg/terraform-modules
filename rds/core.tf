@@ -1,5 +1,5 @@
 locals {
-  security_group = var.create_sg ? [module.sgs.sg_id] : [var.security_group]
+  security_group = var.create_sg ? [module.sgs.0.sg_id] : [var.security_group]
 }
 
 resource "aws_db_instance" "this" {
@@ -21,7 +21,7 @@ resource "aws_db_instance" "this" {
 
 module "sgs" {
   count        = var.create_sg ? 1 : 0
-  source       = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//security_group?ref=v1.0.8"
+  source       = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//security_group?ref=v1.0.9"
   project_name = var.project_name
   description  = "${var.project_name} RDS security group"
   vpc_id       = var.vpc_id
