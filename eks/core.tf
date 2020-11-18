@@ -35,9 +35,8 @@ USERDATA
 }
 
 resource "aws_launch_template" "this" {
-  image_id      = var.image_id
-  instance_type = var.instance_type
-  # key_name               = var.key_name
+  image_id               = var.image_id
+  instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.eks_node.id]
   user_data              = base64encode(local.eks-node-userdata)
 
@@ -45,7 +44,7 @@ resource "aws_launch_template" "this" {
     device_name = "/dev/xvda"
 
     ebs {
-      volume_size           = 20
+      volume_size           = 200
       volume_type           = "gp2"
       delete_on_termination = true
     }
@@ -59,9 +58,9 @@ resource "aws_eks_node_group" "this" {
   subnet_ids      = var.workers_subnets
 
   scaling_config {
-    desired_size = 3
-    min_size     = 3
-    max_size     = 6
+    desired_size = lookup(var.scaling_config, desired)
+    min_size     = lookup(var.scaling_config, min_size)
+    max_size     = lookup(var.scaling_config, max_size)
   }
 
   depends_on = [

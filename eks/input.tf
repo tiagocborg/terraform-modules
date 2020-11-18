@@ -50,3 +50,13 @@ variable "common_tags" {
   type        = map
   default     = {}
 }
+
+variable "scaling_config" {
+  description = "Number of instances for the asg"
+  type        = map
+  default = {
+    desired_size = 2
+    min_size     = 2
+    max_size     = 3
+  }
+}
