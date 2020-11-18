@@ -88,7 +88,7 @@ variable "project_name" {
   type        = string
 }
 
-variable "security_group" {
+variable "create_sg" {
   description = "Should a security group for this module be created?"
   type        = bool
   default     = true
