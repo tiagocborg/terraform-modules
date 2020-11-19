@@ -107,7 +107,7 @@ resource "aws_route" "igw" {
 
 resource "aws_route_table_association" "edge" {
   count          = length(var.edge_subnet_cidr)
-  route_table_id = aws_route_table.edge[0].id
+  route_table_id = aws_route_table.edge.0.id
   subnet_id      = element(aws_subnet.edge.*.id, count.index)
 }
 
@@ -130,7 +130,7 @@ resource "aws_subnet" "application" {
 }
 
 resource "aws_route_table" "application" {
-  count  = length(var.application_subnet_cidr)
+  count  = length(var.application_subnet_cidr) > 0 ? 1 : 0
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -143,7 +143,7 @@ resource "aws_route_table" "application" {
 
 resource "aws_route" "application" {
   count                  = length(var.application_subnet_cidr)
-  route_table_id         = element(aws_route_table.application.*.id, count.index)
+  route_table_id         = aws_route_table.application.0.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -155,7 +155,7 @@ resource "aws_route" "application" {
 resource "aws_route_table_association" "application" {
   count          = length(var.application_subnet_cidr)
   subnet_id      = element(aws_subnet.application.*.id, count.index)
-  route_table_id = element(aws_route_table.application.*.id, count.index)
+  route_table_id = aws_route_table.application.0.id
 }
 
 ##################
@@ -177,7 +177,7 @@ resource "aws_subnet" "data" {
 }
 
 resource "aws_route_table" "data" {
-  count  = length(var.data_subnet_cidr)
+  count  = length(var.data_subnet_cidr) > 0 ? 1 : 0
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -190,7 +190,7 @@ resource "aws_route_table" "data" {
 
 resource "aws_route" "data" {
   count                  = length(var.data_subnet_cidr)
-  route_table_id         = element(aws_route_table.data.*.id, count.index)
+  route_table_id         = aws_route_table.data.0.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -202,7 +202,7 @@ resource "aws_route" "data" {
 resource "aws_route_table_association" "data" {
   count          = length(var.data_subnet_cidr)
   subnet_id      = element(aws_subnet.data.*.id, count.index)
-  route_table_id = element(aws_route_table.data.*.id, count.index)
+  route_table_id = aws_route_table.data.0.id
 }
 
 #################
@@ -224,7 +224,7 @@ resource "aws_subnet" "dmz" {
 }
 
 resource "aws_route_table" "dmz" {
-  count  = length(var.dmz_subnet_cidr)
+  count  = length(var.dmz_subnet_cidr) > 0 ? 1 : 0
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -237,7 +237,7 @@ resource "aws_route_table" "dmz" {
 
 resource "aws_route" "dmz" {
   count                  = length(var.dmz_subnet_cidr)
-  route_table_id         = element(aws_route_table.dmz.*.id, count.index)
+  route_table_id         = aws_route_table.dmz.0.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -249,7 +249,7 @@ resource "aws_route" "dmz" {
 resource "aws_route_table_association" "dmz" {
   count          = length(var.dmz_subnet_cidr)
   subnet_id      = element(aws_subnet.dmz.*.id, count.index)
-  route_table_id = element(aws_route_table.dmz.*.id, count.index)
+  route_table_id = aws_route_table.dmz.0.id
 }
 
 ################
