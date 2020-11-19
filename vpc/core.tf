@@ -229,7 +229,7 @@ resource "aws_route_table" "dmz" {
 
   tags = merge(
     {
-      Name = "rt-${var.project_name}-${var.region}-application"
+      Name = "rt-${var.project_name}-${var.region}-dmz"
     },
     local.common_tags
   )
