@@ -182,7 +182,7 @@ resource "aws_route_table" "data" {
 
   tags = merge(
     {
-      Name = "rt-${var.project_name}-${var.region}-application"
+      Name = "rt-${var.project_name}-${var.region}-data"
     },
     local.common_tags
   )
