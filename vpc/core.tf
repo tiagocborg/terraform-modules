@@ -143,7 +143,7 @@ resource "aws_route_table" "application" {
 
 resource "aws_route" "application" {
   count                  = length(var.application_subnet_cidr)
-  route_table_id         = aws_route_table.application.0.id
+  route_table_id         = element(aws_route_table.application.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -155,7 +155,7 @@ resource "aws_route" "application" {
 resource "aws_route_table_association" "application" {
   count          = length(var.application_subnet_cidr)
   subnet_id      = element(aws_subnet.application.*.id, count.index)
-  route_table_id = aws_route_table.application.0.id
+  route_table_id = element(aws_route_table.application.*.id, count.index)
 }
 
 ##################
@@ -190,7 +190,7 @@ resource "aws_route_table" "data" {
 
 resource "aws_route" "data" {
   count                  = length(var.data_subnet_cidr)
-  route_table_id         = aws_route_table.data.0.id
+  route_table_id         = element(aws_route_table.data.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -202,7 +202,7 @@ resource "aws_route" "data" {
 resource "aws_route_table_association" "data" {
   count          = length(var.data_subnet_cidr)
   subnet_id      = element(aws_subnet.data.*.id, count.index)
-  route_table_id = aws_route_table.data.0.id
+  route_table_id = element(aws_route_table.data.*.id, count.index)
 }
 
 #################
