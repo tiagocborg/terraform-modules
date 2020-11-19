@@ -177,7 +177,7 @@ resource "aws_subnet" "data" {
 }
 
 resource "aws_route_table" "data" {
-  count  = length(var.data_subnet_cidr) > 0 ? 1 : 0
+  count  = length(var.data_subnet_cidr)
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
