@@ -224,7 +224,7 @@ resource "aws_subnet" "dmz" {
 }
 
 resource "aws_route_table" "dmz" {
-  count  = length(var.dmz_subnet_cidr) > 0 ? 1 : 0
+  count  = length(var.dmz_subnet_cidr)
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -237,7 +237,7 @@ resource "aws_route_table" "dmz" {
 
 resource "aws_route" "dmz" {
   count                  = length(var.dmz_subnet_cidr)
-  route_table_id         = aws_route_table.dmz.0.id
+  route_table_id         = element(aws_route_table.dmz.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
 
@@ -249,7 +249,7 @@ resource "aws_route" "dmz" {
 resource "aws_route_table_association" "dmz" {
   count          = length(var.dmz_subnet_cidr)
   subnet_id      = element(aws_subnet.dmz.*.id, count.index)
-  route_table_id = aws_route_table.dmz.0.id
+  route_table_id = element(aws_route_table.dmz.*.id, count.index)
 }
 
 ################
