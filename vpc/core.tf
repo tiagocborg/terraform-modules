@@ -130,7 +130,7 @@ resource "aws_subnet" "application" {
 }
 
 resource "aws_route_table" "application" {
-  count  = length(var.application_subnet_cidr) > 0 ? 1 : 0
+  count  = length(var.application_subnet_cidr)
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
