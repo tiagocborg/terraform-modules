@@ -244,9 +244,14 @@ resource "aws_iam_instance_profile" "node" {
   role = aws_iam_role.eks_worker.name
 }
 
-resource "aws_iam_role_policy_attachment" "alb-work-node" {
+resource "aws_iam_role_policy_attachment" "alb-oidc" {
   policy_arn = aws_iam_policy.alb.arn
   role       = aws_iam_role.alb.name
+}
+
+resource "aws_iam_role_policy_attachment" "alb-work-node" {
+  policy_arn = aws_iam_policy.alb.arn
+  role       = aws_iam_role.eks_worker.name
 }
 
 resource "aws_iam_role_policy_attachment" "external-dns-work-node" {
