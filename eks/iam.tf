@@ -330,6 +330,7 @@ resource "aws_iam_policy" "eks-admin" {
         "eks:ListUpdates",
         "eks:DescribeUpdate",
         "eks:DescribeCluster"
+        "eks:ListClusters"
       ],
       "Resource": [
         "${aws_eks_cluster.this.arn}",
