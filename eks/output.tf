@@ -17,3 +17,7 @@ output "eks_worker_role" {
 output "eks_cluster_admin_role" {
   value = aws_iam_role.cluster-admin.arn
 }
+
+output "eks_cluster_admin_group" {
+  value = aws_iam_group.cluster-admin.arn
+}
