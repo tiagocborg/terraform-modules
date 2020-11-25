@@ -333,7 +333,7 @@ resource "aws_iam_policy" "eks-admin" {
       ],
       "Resource": [
         "${aws_eks_cluster.this.arn}",
-        "arn:aws:eks:*:146550048380:nodegroup/${aws_eks_cluster.this.name}/*/*"
+        "arn:aws:eks:*:${data.aws_caller_identity.current.account_id}:nodegroup/${aws_eks_cluster.this.name}/*/*"
       ] 
     }
   ]

@@ -83,3 +83,5 @@ resource "aws_iam_openid_connect_provider" "this" {
 data "tls_certificate" "this" {
   url = aws_eks_cluster.this.identity.0.oidc.0.issuer
 }
+
+data "aws_caller_identity" "current" {}
