@@ -329,7 +329,7 @@ resource "aws_iam_policy" "eks-admin" {
         "eks:ListTagsForResource",
         "eks:ListUpdates",
         "eks:DescribeUpdate",
-        "eks:DescribeCluster"
+        "eks:DescribeCluster",
         "eks:ListClusters"
       ],
       "Resource": [
