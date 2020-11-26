@@ -38,6 +38,7 @@ resource "aws_launch_template" "this" {
   image_id               = var.image_id
   vpc_security_group_ids = [aws_security_group.eks_node.id]
   user_data              = base64encode(local.eks-node-userdata)
+  instance_type          = var.instance_type
 
   block_device_mappings {
     device_name = "/dev/xvda"
@@ -55,7 +56,6 @@ resource "aws_eks_node_group" "this" {
   node_group_name = "${var.project_name}-workers"
   node_role_arn   = aws_iam_role.eks_worker.arn
   subnet_ids      = var.workers_subnets
-  instance_types  = var.instance_types
 
   launch_template {
     id      = aws_launch_template.this.id
