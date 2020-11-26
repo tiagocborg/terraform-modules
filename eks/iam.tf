@@ -218,6 +218,18 @@ resource "aws_iam_policy" "alb" {
         "shield:ListProtections"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetRandomPassword",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:ListSecretVersionIds",
+        "secretsmanager:ListSecrets"
+      ],
+      "Resource": "*"
     }
   ]
 }
