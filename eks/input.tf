@@ -35,9 +35,9 @@ variable "create_registry" {
   default     = true
 }
 
-variable "instance_type" {
-  description = "The worker instance type"
-  type        = string
+variable "instance_types" {
+  description = "The worker instance types"
+  type        = list
 }
 
 variable "image_id" {
