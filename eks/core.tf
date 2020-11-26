@@ -57,7 +57,7 @@ resource "aws_eks_node_group" "this" {
   subnet_ids      = var.workers_subnets
   instance_types  = var.instance_types
 
-  launch_template = {
+  launch_template {
     id      = aws_launch_template.this.id
     version = aws_launch_template.this.latest_version
   }
