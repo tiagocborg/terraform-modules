@@ -177,7 +177,7 @@ resource "aws_subnet" "data" {
 }
 
 resource "aws_route_table" "data" {
-  count  = length(var.data_subnet_cidr)
+  count  = length(var.data_subnet_cidr) > 0 ? 1 : 0
   vpc_id = aws_vpc.vpc.id
 
   tags = merge(
@@ -188,21 +188,10 @@ resource "aws_route_table" "data" {
   )
 }
 
-resource "aws_route" "data" {
-  count                  = length(var.data_subnet_cidr)
-  route_table_id         = element(aws_route_table.data.*.id, count.index)
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)
-
-  timeouts {
-    create = "5m"
-  }
-}
-
 resource "aws_route_table_association" "data" {
   count          = length(var.data_subnet_cidr)
   subnet_id      = element(aws_subnet.data.*.id, count.index)
-  route_table_id = element(aws_route_table.data.*.id, count.index)
+  route_table_id = element(aws_route_table.data.0.id, count.index)
 }
 
 #################
