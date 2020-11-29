@@ -52,5 +52,5 @@ resource "aws_secretsmanager_secret" "secret" {
 
 resource "aws_secretsmanager_secret_version" "secret_val" {
   secret_id     = aws_secretsmanager_secret.secret.id
-  secret_string = "{\"DB_USER\":\"${var.db_user}\",\"DB_PASSWORD\":\"${random_password.random_string.result}\",\"DB_HOST\":\"${aws_db_instance.this.endpoint}\",\"DB_PORT\":\"${aws_db_instance.this.port}\"}"
+  secret_string = "{\"DB_NAME\":\"${var.db_name}\", \"DB_USER\":\"${var.db_user}\",\"DB_PASSWORD\":\"${random_password.random_string.result}\",\"DB_HOST\":\"${aws_db_instance.this.endpoint}\",\"DB_PORT\":\"${aws_db_instance.this.port}\"}"
 }
