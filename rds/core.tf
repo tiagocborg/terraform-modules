@@ -47,7 +47,7 @@ resource "random_password" "random_string" {
 }
 
 resource "aws_secretsmanager_secret" "secret" {
-  name = "${var.project_name}/db/db-info"
+  name = "${var.project_name}/db/creds"
 }
 
 resource "aws_secretsmanager_secret_version" "secret_val" {
