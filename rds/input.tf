@@ -38,7 +38,7 @@ variable "skip_final_snapshot" {
 variable "allocated_storage" {
   type        = number
   description = "The initial storage size"
-  default     = 20
+  default     = 50
 }
 
 variable "publicly_accessible" {
