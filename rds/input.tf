@@ -95,3 +95,8 @@ variable "create_sg" {
   type        = bool
   default     = true
 }
+
+variable "parameter_group_name" {
+  description = "Parameter group identificar"
+  type        = string
+}

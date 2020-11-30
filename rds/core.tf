@@ -17,6 +17,7 @@ resource "aws_db_instance" "this" {
   publicly_accessible    = var.publicly_accessible
   tags                   = var.common_tags
   port                   = var.db_port
+  parameter_group_name   = var.parameter_group_name
 }
 
 module "sgs" {
