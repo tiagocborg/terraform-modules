@@ -41,6 +41,12 @@ variable "allocated_storage" {
   default     = 50
 }
 
+variable "storage_type" {
+  type        = string
+  description = "The initial storage type"
+  default     = "gp2"
+}
+
 variable "publicly_accessible" {
   type        = bool
   description = "Should the instance be public accessible?"

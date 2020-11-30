@@ -18,6 +18,7 @@ resource "aws_db_instance" "this" {
   tags                   = var.common_tags
   port                   = var.db_port
   parameter_group_name   = var.parameter_group_name
+  storage_type           = var.storage_type
 }
 
 module "sgs" {
