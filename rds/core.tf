@@ -1,5 +1,5 @@
 locals {
-  security_group = var.create_sg ? module.sgs.sg_id : [var.security_group]
+  security_group = var.create_sg ? module.sgs.*.sg_id : [var.security_group]
 }
 
 resource "aws_db_instance" "this" {
