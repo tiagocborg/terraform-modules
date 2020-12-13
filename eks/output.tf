@@ -11,11 +11,11 @@ output "cluster_certificate" {
 }
 
 output "eks_worker_role" {
-  value = aws_iam_role.eks_worker.arn
+  value = aws_iam_role.eks_worker.name
 }
 
 output "eks_cluster_admin_role" {
-  value = aws_iam_role.cluster-admin.arn
+  value = aws_iam_role.cluster-admin.name
 }
 
 output "eks_cluster_admin_group" {
