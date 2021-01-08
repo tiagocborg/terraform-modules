@@ -60,7 +60,7 @@ variable "identifier" {
 
 variable "common_tags" {
   description = "Common tags for the resources"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -105,4 +105,16 @@ variable "create_sg" {
 variable "parameter_group_name" {
   description = "Parameter group identificar"
   type        = string
+}
+
+variable "snapshot_identifier" {
+  description = "Snapshot ID to base the new db"
+  type        = string
+  default     = ""
+}
+
+variable "db_password" {
+  description = "Admin password for the new instance. Required if using a snapshot"
+  type        = string
+  default     = ""
 }

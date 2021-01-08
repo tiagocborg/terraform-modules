@@ -3,13 +3,13 @@ locals {
 }
 
 resource "aws_db_instance" "this" {
-  allocated_storage      = var.allocated_storage
-  engine                 = var.engine
+  allocated_storage      = var.snapshot_identifier ? "" : var.allocated_storage
+  engine                 = var.snapshot_identifier ? "" : var.engine
   engine_version         = var.engine_version
   instance_class         = var.instance_class
-  name                   = var.db_name
-  username               = var.db_user
-  password               = random_password.random_string.result
+  name                   = var.snapshot_identifier ? "" : var.db_name
+  username               = var.snapshot_identifier ? "" : var.db_user
+  password               = var.snapshot_identifier ? "" : random_password.random_string.result
   vpc_security_group_ids = local.security_group
   db_subnet_group_name   = aws_db_subnet_group.this.name
   identifier             = var.identifier
@@ -19,6 +19,7 @@ resource "aws_db_instance" "this" {
   port                   = var.db_port
   parameter_group_name   = var.parameter_group_name
   storage_type           = var.storage_type
+  snapshot_identifier    = var.snapshot_identifier
 }
 
 module "sgs" {
