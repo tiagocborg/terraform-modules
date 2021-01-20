@@ -20,6 +20,10 @@ resource "aws_vpc" "vpc" {
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 ####################
@@ -34,6 +38,9 @@ resource "aws_internet_gateway" "this" {
     },
     local.common_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 #############################
@@ -49,6 +56,9 @@ resource "aws_eip" "this" {
     },
     local.common_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_nat_gateway" "this" {
@@ -62,6 +72,9 @@ resource "aws_nat_gateway" "this" {
     },
     local.common_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 ##################
@@ -79,6 +92,9 @@ resource "aws_subnet" "edge" {
     },
     local.edge_subnet_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table" "edge" {
@@ -91,6 +107,9 @@ resource "aws_route_table" "edge" {
     },
     local.edge_subnet_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route" "igw" {
@@ -103,12 +122,18 @@ resource "aws_route" "igw" {
   timeouts {
     create = "5m"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table_association" "edge" {
   count          = length(var.edge_subnet_cidr)
   route_table_id = aws_route_table.edge.0.id
   subnet_id      = element(aws_subnet.edge.*.id, count.index)
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 #########################
@@ -127,6 +152,9 @@ resource "aws_subnet" "application" {
     },
     local.application_subnet_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table" "application" {
@@ -139,6 +167,9 @@ resource "aws_route_table" "application" {
     },
     local.common_tags
   )
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route" "application" {
@@ -150,12 +181,18 @@ resource "aws_route" "application" {
   timeouts {
     create = "5m"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table_association" "application" {
   count          = length(var.application_subnet_cidr)
   subnet_id      = element(aws_subnet.application.*.id, count.index)
   route_table_id = element(aws_route_table.application.*.id, count.index)
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 ##################
@@ -167,13 +204,16 @@ resource "aws_subnet" "data" {
   cidr_block        = element(var.data_subnet_cidr, count.index)
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
-
   tags = merge(
     {
       Name = "sbn-${var.project_name}-${var.region}-data"
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table" "data" {
@@ -186,12 +226,20 @@ resource "aws_route_table" "data" {
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table_association" "data" {
   count          = length(var.data_subnet_cidr)
   subnet_id      = element(aws_subnet.data.*.id, count.index)
   route_table_id = aws_route_table.data.0.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 #################
@@ -210,6 +258,10 @@ resource "aws_subnet" "dmz" {
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table" "dmz" {
@@ -222,6 +274,10 @@ resource "aws_route_table" "dmz" {
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route" "dmz" {
@@ -233,12 +289,20 @@ resource "aws_route" "dmz" {
   timeouts {
     create = "5m"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_route_table_association" "dmz" {
   count          = length(var.dmz_subnet_cidr)
   subnet_id      = element(aws_subnet.dmz.*.id, count.index)
   route_table_id = element(aws_route_table.dmz.*.id, count.index)
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 ################
@@ -259,4 +323,8 @@ resource "aws_vpc_endpoint" "s3" {
     },
     local.common_tags
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }

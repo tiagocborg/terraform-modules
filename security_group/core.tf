@@ -3,6 +3,10 @@ resource "aws_security_group" "this" {
   description = var.description
   vpc_id      = var.vpc_id
   tags        = var.common_tags
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_security_group_rule" "ingress_rule" {
@@ -14,4 +18,8 @@ resource "aws_security_group_rule" "ingress_rule" {
   cidr_blocks       = lookup(var.sg_rules[count.index], "cidr_blocks")
   protocol          = lookup(var.sg_rules[count.index], "protocol")
   description       = lookup(var.sg_rules[count.index], "description")
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
