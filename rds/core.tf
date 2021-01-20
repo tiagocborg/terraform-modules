@@ -19,7 +19,6 @@ resource "aws_db_instance" "this" {
   port                   = var.db_port
   parameter_group_name   = var.parameter_group_name
   storage_type           = var.storage_type
-  snapshot_identifier    = var.snapshot_identifier
 }
 
 module "sgs" {

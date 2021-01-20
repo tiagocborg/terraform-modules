@@ -107,11 +107,11 @@ variable "parameter_group_name" {
   type        = string
 }
 
-variable "snapshot_identifier" {
-  description = "Snapshot ID to base the new db"
-  type        = string
-  default     = ""
-}
+# variable "snapshot_identifier" {
+#   description = "Snapshot ID to base the new db"
+#   type        = string
+#   default     = ""
+# }
 
 variable "db_password" {
   description = "Admin password for the new instance. Required if using a snapshot"
