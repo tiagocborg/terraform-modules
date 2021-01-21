@@ -30,7 +30,7 @@ variable "security_groups" {
   type        = list(string)
 }
 
-variable "iam_role" {
-  description = "Master iam role"
-  type        = string
-}
+# variable "iam_role" {
+#   description = "Master iam role"
+#   type        = string
+# }
