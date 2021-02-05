@@ -19,6 +19,11 @@ resource "aws_eks_cluster" "this" {
     endpoint_private_access = "true"
     endpoint_public_access  = "true"
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.cluster-AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.cluster-AmazonEKSServicePolicy
+  ]
 }
 
 resource "aws_iam_openid_connect_provider" "this" {
