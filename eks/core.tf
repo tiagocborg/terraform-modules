@@ -90,3 +90,60 @@ data "tls_certificate" "this" {
 }
 
 data "aws_caller_identity" "current" {}
+
+locals {
+  project_name = "whistleblower"
+  env_name     = terraform.workspace
+  name         = "${local.project_name}-${local.env_name}"
+  common_tags = {
+    Project     = local.project_name
+    Terraform   = "true"
+    Environment = local.env_name
+  }
+}
+
+module "vpc" {
+  source                  = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//vpc?ref=v2.3.1"
+  project_name            = local.project_name
+  region                  = var.region
+  cidr_block              = var.vpc_cidr[local.env_name]
+  env_name                = local.env_name
+  application_subnet_cidr = var.application_subnets_cidr[local.env_name]
+  data_subnet_cidr        = var.data_subnets_cidr[local.env_name]
+  edge_subnet_cidr        = var.edge_subnets_cidr[local.env_name]
+  dmz_subnet_cidr         = var.dmz_subnets_cidr[local.env_name]
+
+  application_subnet_tags = {
+    "kubernetes.io/cluster/eks-${local.project_name}" : "shared"
+  }
+
+  edge_subnet_tags = {
+    "kubernetes.io/cluster/eks-${local.project_name}" : "shared"
+    "kubernetes.io/role/elb" : 1
+  }
+
+  common_tags = local.common_tags
+}
+
+module "eks" {
+  source          = "git::ssh://git@gitlab.com/enxcs/workload/ecs-shared/terraform-modules.git//eks?ref=v2.5.1"
+  project_name    = local.project_name
+  vpc_id          = module.vpc.vpc_id
+  cluster_subnets = concat(module.vpc.application_subnets, module.vpc.edge_subnets)
+  workers_subnets = module.vpc.application_subnets
+  region          = var.region
+  instance_type   = "t3.medium"
+  image_id        = "ami-0af93ebcaa763f50b"
+  common_tags     = local.common_tags
+}
+
+resource "aws_route53_zone" "main" {
+  name = var.base_url[terraform.workspace]
+}
+
+locals {
+  oidc = {
+    arn = aws_iam_openid_connect_provider.this.arn
+    url = replace(aws_iam_openid_connect_provider.this.url, "https://", "")
+  }
+}

@@ -21,3 +21,11 @@ output "eks_cluster_admin_role" {
 output "eks_cluster_admin_group" {
   value = aws_iam_group.eks-admin.name
 }
+
+output "oidc" {
+  description = "The OIDC provider attributes for IAM Role for ServiceAccount"
+  value = zipmap(
+    ["url", "arn"],
+    [local.oidc["url"], local.oidc["arn"]]
+  )
+}
