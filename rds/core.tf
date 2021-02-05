@@ -32,8 +32,8 @@ module "sgs" {
 }
 
 resource "aws_db_subnet_group" "this" {
-  name_prefix = "${var.project_name}-rds-subnet-group"
-  subnet_ids  = var.subnets
+  name       = "${var.project_name}-rds-subnet-group"
+  subnet_ids = var.subnets
 
   tags = merge(
     {
@@ -41,10 +41,6 @@ resource "aws_db_subnet_group" "this" {
     },
     var.common_tags
   )
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
 
 resource "random_password" "random_string" {
