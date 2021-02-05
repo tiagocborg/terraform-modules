@@ -37,10 +37,3 @@ data "tls_certificate" "this" {
 }
 
 data "aws_caller_identity" "current" {}
-
-locals {
-  oidc = {
-    arn = aws_iam_openid_connect_provider.this.arn
-    url = replace(aws_iam_openid_connect_provider.this.url, "https://", "")
-  }
-}
