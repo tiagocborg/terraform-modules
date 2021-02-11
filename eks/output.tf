@@ -29,3 +29,7 @@ output "oidc" {
     [local.oidc["url"], local.oidc["arn"]]
   )
 }
+
+output "eks_node_sg" {
+  value = aws_security_group.eks_node.id
+}
