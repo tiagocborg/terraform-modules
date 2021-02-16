@@ -10,10 +10,6 @@ output "cluster_certificate" {
   value = base64decode(aws_eks_cluster.this.certificate_authority.0.data)
 }
 
-output "eks_worker_role" {
-  value = aws_iam_role.eks_worker.arn
-}
-
 output "oidc" {
   description = "The OIDC provider attributes for IAM Role for ServiceAccount"
   value = zipmap(
