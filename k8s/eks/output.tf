@@ -21,3 +21,13 @@ output "oidc" {
     [local.oidc["url"], local.oidc["arn"]]
   )
 }
+
+output "helmconfig" {
+  description = "The configurations map for Helm provider"
+  sensitive   = true
+  value = {
+    host  = aws_eks_cluster.this.endpoint
+    token = data.aws_eks_cluster_auth.this.token
+    ca    = aws_eks_cluster.this.certificate_authority.0.data
+  }
+}
