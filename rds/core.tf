@@ -19,6 +19,7 @@ resource "aws_db_instance" "this" {
   port                   = var.db_port
   parameter_group_name   = var.parameter_group_name
   storage_type           = var.storage_type
+  storage_encrypted      = var.encrypt
 }
 
 module "sgs" {

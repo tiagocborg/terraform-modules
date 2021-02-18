@@ -58,6 +58,12 @@ variable "identifier" {
   description = "The instance identifier"
 }
 
+variable "encrypt" {
+  type        = bool
+  default     = true
+  description = "Should the instance be encrypted?"
+}
+
 variable "common_tags" {
   description = "Common tags for the resources"
   type        = map(any)
