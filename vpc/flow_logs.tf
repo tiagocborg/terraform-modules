@@ -3,7 +3,7 @@ resource "aws_flow_log" "this" {
   iam_role_arn    = aws_iam_role.this.0.arn
   log_destination = aws_cloudwatch_log_group.this.0.arn
   traffic_type    = "ALL"
-  vpc_id          = aws_vpc.this.id
+  vpc_id          = aws_vpc.vpc.id
   tags            = local.common_tags
 }
 
@@ -39,7 +39,6 @@ resource "aws_iam_role_policy" "this" {
   count  = var.enable_flow_logs ? 1 : 0
   name   = "${var.project_name}-flow-logs"
   role   = aws_iam_role.this.0.id
-  tags   = local.common_tags
   policy = <<EOF
 {
   "Version": "2012-10-17",
