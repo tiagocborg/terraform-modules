@@ -1,18 +1,21 @@
 resource "aws_flow_log" "this" {
-  iam_role_arn    = aws_iam_role.this.arn
-  log_destination = aws_cloudwatch_log_group.this.arn
+  count           = var.enable_flow_logs ? 1 : 0
+  iam_role_arn    = aws_iam_role.this.0.arn
+  log_destination = aws_cloudwatch_log_group.this.0.arn
   traffic_type    = "ALL"
   vpc_id          = aws_vpc.this.id
   tags            = local.common_tags
 }
 
 resource "aws_cloudwatch_log_group" "this" {
+  count             = var.enable_flow_logs ? 1 : 0
   name              = "${var.project_name}-flow-logs"
   retention_in_days = 30
   tags              = local.common_tags
 }
 
 resource "aws_iam_role" "this" {
+  count              = var.enable_flow_logs ? 1 : 0
   name               = "${var.project_name}-flow-logs"
   tags               = local.common_tags
   assume_role_policy = <<EOF
@@ -33,8 +36,9 @@ EOF
 }
 
 resource "aws_iam_role_policy" "this" {
+  count  = var.enable_flow_logs ? 1 : 0
   name   = "${var.project_name}-flow-logs"
-  role   = aws_iam_role.this.id
+  role   = aws_iam_role.this.0.id
   tags   = local.common_tags
   policy = <<EOF
 {

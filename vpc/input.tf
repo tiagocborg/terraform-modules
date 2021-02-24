@@ -6,44 +6,44 @@ variable "cidr_block" {
 
 variable "edge_subnet_cidr" {
   description = "The range for the edge subnets"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "data_subnet_cidr" {
   description = "The range for the data subnets"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "dmz_subnet_cidr" {
   description = "The range for the dnz subnets"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "application_subnet_cidr" {
   description = "The range for the application subnets"
-  type        = list
+  type        = list(any)
   default     = []
 }
 
 variable "edge_subnet_tags" {
   description = "Unique tags for edge subnets"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
 variable "application_subnet_tags" {
   description = "Unique tags for applicatio subnets"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
 
 variable "common_tags" {
   description = "Common tags for the resources"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
@@ -55,6 +55,12 @@ variable "enable_dns_hostnames" {
 
 variable "enable_dns_support" {
   description = "Should dns support be enabled by default?"
+  type        = bool
+  default     = true
+}
+
+variable "enable_flow_logs" {
+  description = "Should flow logs be enabled by default?"
   type        = bool
   default     = true
 }
