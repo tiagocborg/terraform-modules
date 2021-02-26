@@ -15,6 +15,7 @@ resource "aws_launch_template" "this" {
   vpc_security_group_ids = var.security_groups
   user_data              = base64encode(local.eks-node-userdata)
   name                   = var.worker_group_name
+  key_name               = var.key_name
   tag_specifications {
     resource_type = "instance"
 
@@ -49,7 +50,7 @@ resource "aws_eks_node_group" "this" {
   labels          = var.labels
   capacity_type   = var.capacity_type
   instance_types  = var.instance_types
-  
+
   launch_template {
     id      = aws_launch_template.this.id
     version = aws_launch_template.this.latest_version

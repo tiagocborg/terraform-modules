@@ -83,3 +83,8 @@ variable "volume_size" {
   type    = string
   default = null
 }
+
+variable "key_name" {
+  type    = string
+  default = null
+}
