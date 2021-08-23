@@ -2,6 +2,7 @@ locals {
   common_tags             = var.common_tags
   edge_subnet_tags        = merge(local.common_tags, var.edge_subnet_tags)
   application_subnet_tags = merge(local.common_tags, var.application_subnet_tags)
+  data_subnet_tags        = merge(local.common_tags, var.data_subnet_tags)
 }
 
 
@@ -47,7 +48,7 @@ resource "aws_internet_gateway" "this" {
 # ELASTIC IPS & NAT GATEWAY #
 #############################
 resource "aws_eip" "this" {
-  count = length(var.edge_subnet_cidr)
+  count = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.edge_subnet_cidr)) : 0
   vpc   = true
 
   tags = merge(
@@ -62,7 +63,7 @@ resource "aws_eip" "this" {
 }
 
 resource "aws_nat_gateway" "this" {
-  count         = length(var.edge_subnet_cidr)
+  count         = var.enable_nat_gateway ? (var.single_nat_gateway ? 1 : length(var.edge_subnet_cidr)) : 0
   allocation_id = element(aws_eip.this.*.id, count.index)
   subnet_id     = element(aws_subnet.edge.*.id, count.index)
   depends_on    = [aws_internet_gateway.this]
@@ -173,7 +174,7 @@ resource "aws_route_table" "application" {
 }
 
 resource "aws_route" "application" {
-  count                  = length(var.application_subnet_cidr)
+  count                  = var.enable_nat_gateway ? length(var.application_subnet_cidr) : 0
   route_table_id         = element(aws_route_table.application.*.id, count.index)
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = element(aws_nat_gateway.this.*.id, count.index)

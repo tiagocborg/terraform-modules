@@ -35,11 +35,16 @@ variable "edge_subnet_tags" {
 }
 
 variable "application_subnet_tags" {
-  description = "Unique tags for applicatio subnets"
+  description = "Unique tags for application subnets"
   type        = map(any)
   default     = {}
 }
 
+variable "data_subnet_tags" {
+  description = "Unique tags for data subnets"
+  type        = map(any)
+  default     = {}
+}
 
 variable "common_tags" {
   description = "Common tags for the resources"
@@ -63,6 +68,18 @@ variable "enable_flow_logs" {
   description = "Should flow logs be enabled by default?"
   type        = bool
   default     = true
+}
+
+variable "enable_nat_gateway" {
+  description = "If NAT Gateways should be deployed"
+  type        = bool
+  default     = true
+}
+
+variable "single_nat_gateway" {
+  description = "Single NAT Gateway"
+  type        = bool
+  default     = false
 }
 
 variable "instance_tenancy" {

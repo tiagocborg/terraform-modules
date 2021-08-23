@@ -4,9 +4,21 @@ locals {
 
 locals {
   eks-node-userdata = <<USERDATA
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="==MYBOUNDARY=="
+
+--==MYBOUNDARY==
+Content-Type: text/x-shellscript; charset="us-ascii"
 #!/bin/bash
-set -o xtrace
-/etc/eks/bootstrap.sh --apiserver-endpoint '${data.aws_eks_cluster.this.endpoint}' --b64-cluster-ca '${data.aws_eks_cluster.this.certificate_authority.0.data}' 'eks-${var.project_name}' --kubelet-extra-args "${var.kubelet_extra_args}"
+yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+rm -rf /etc/cron.d/ssmstart
+set -ex
+B64_CLUSTER_CA=${data.aws_eks_cluster.this.certificate_authority.0.data}
+API_SERVER_URL=${data.aws_eks_cluster.this.endpoint}
+K8S_CLUSTER_DNS_IP=172.20.0.10
+/etc/eks/bootstrap.sh ${var.cluster_name} --use-max-pods '${var.use_max_pods ? "true" : "false"}' --b64-cluster-ca $B64_CLUSTER_CA --apiserver-endpoint $API_SERVER_URL --dns-cluster-ip $K8S_CLUSTER_DNS_IP
+
+--==MYBOUNDARY==--
 USERDATA
 }
 

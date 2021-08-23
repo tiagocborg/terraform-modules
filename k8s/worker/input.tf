@@ -3,6 +3,12 @@ variable "project_name" {
   type        = string
 }
 
+variable "use_max_pods" {
+  description = "Use max pods option on the eks bootstrap script"
+  type        = bool
+  default     = true
+}
+
 variable "workers_subnets" {
   description = "The subnets for the workers nodes"
   type        = list(string)
